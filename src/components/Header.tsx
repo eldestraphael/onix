@@ -24,36 +24,79 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigate,
   onOpenTourModal,
 }) => {
-  const [isWhoWeServeOpen, setIsWhoWeServeOpen] = useState(false);
-  const [isSolutionsOpen, setIsSolutionsOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<'who-we-serve' | 'solutions' | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const navContainerRef = useRef<HTMLDivElement>(null);
 
-  const whoWeServeRef = useRef<HTMLDivElement>(null);
-  const solutionsRef = useRef<HTMLDivElement>(null);
+  const openDropdown = (menu: 'who-we-serve' | 'solutions') => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setActiveDropdown(menu);
+  };
 
-  // Close dropdowns when clicking outside
+  const scheduleClose = () => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+    }
+    closeTimeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 120);
+  };
+
+  const closeImmediately = () => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setActiveDropdown(null);
+  };
+
+  // Close dropdowns on outside click or Esc key
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (whoWeServeRef.current && !whoWeServeRef.current.contains(event.target as Node)) {
-        setIsWhoWeServeOpen(false);
-      }
-      if (solutionsRef.current && !solutionsRef.current.contains(event.target as Node)) {
-        setIsSolutionsOpen(false);
+    const handleDocumentClick = (event: MouseEvent) => {
+      if (navContainerRef.current && !navContainerRef.current.contains(event.target as Node)) {
+        closeImmediately();
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeImmediately();
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleDocumentClick);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleDocumentClick);
+      document.removeEventListener('keydown', handleKeyDown);
+      if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    };
   }, []);
+
+  const isWhoWeServeOpen = activeDropdown === 'who-we-serve';
+  const isSolutionsOpen = activeDropdown === 'solutions';
 
   return (
     <header className="fixed top-4 inset-x-0 z-50 flex justify-center px-3 sm:px-6 pointer-events-none">
-      {/* Floating Pill Container matching user reference */}
-      <div className="w-full max-w-6xl bg-white/95 backdrop-blur-md rounded-full shadow-[0_10px_35px_rgba(0,0,0,0.08)] px-4 sm:px-6 py-2.5 flex items-center justify-between pointer-events-auto transition-all border border-black/[0.04]">
+      {/* Floating Pill Container */}
+      <div 
+        ref={navContainerRef}
+        onMouseLeave={scheduleClose}
+        className="w-full max-w-6xl bg-white/95 backdrop-blur-md rounded-full shadow-[0_10px_35px_rgba(0,0,0,0.08)] px-4 sm:px-6 py-2.5 flex items-center justify-between pointer-events-auto transition-all border border-black/[0.04]"
+      >
         
         {/* Left: Brand Logo */}
         <div className="flex items-center shrink-0">
           <button
-            onClick={() => onNavigate('home')}
+            onClick={() => {
+              closeImmediately();
+              onNavigate('home');
+            }}
+            onMouseEnter={closeImmediately}
             className="flex items-center gap-2.5 focus:outline-none group"
             aria-label="Onix Data Centre Home"
           >
@@ -65,31 +108,42 @@ export const Header: React.FC<HeaderProps> = ({
         <nav className="hidden lg:flex items-center gap-5 text-[13px] font-medium text-slate-700">
           
           {/* Who we serve dropdown */}
-          <div className="relative" ref={whoWeServeRef}>
+          <div 
+            className="relative"
+            onMouseEnter={() => openDropdown('who-we-serve')}
+            onMouseLeave={scheduleClose}
+          >
             <button
-              onClick={() => setIsWhoWeServeOpen(!isWhoWeServeOpen)}
-              onMouseEnter={() => setIsWhoWeServeOpen(true)}
-              className={`flex items-center gap-1 py-1.5 transition-colors ${
+              onClick={() => {
+                if (isWhoWeServeOpen) {
+                  closeImmediately();
+                } else {
+                  openDropdown('who-we-serve');
+                }
+              }}
+              className={`flex items-center gap-1 py-1.5 transition-colors cursor-pointer ${
                 ['banks-fintech', 'networks-content', 'enterprise', 'moving-to-onix'].includes(currentPage)
                   ? 'text-[#B12D24] font-semibold'
-                  : 'hover:text-[#B12D24]'
+                  : isWhoWeServeOpen ? 'text-[#B12D24]' : 'hover:text-[#B12D24]'
               }`}
+              aria-expanded={isWhoWeServeOpen}
             >
               <span>Who we serve</span>
-              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isWhoWeServeOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isWhoWeServeOpen ? 'rotate-180 text-[#B12D24]' : ''}`} />
             </button>
 
             {isWhoWeServeOpen && (
               <div 
-                onMouseLeave={() => setIsWhoWeServeOpen(false)}
-                className="absolute top-full left-0 mt-3 w-72 bg-white rounded-3xl shadow-xl p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150 border border-slate-100"
+                onMouseEnter={() => openDropdown('who-we-serve')}
+                onMouseLeave={scheduleClose}
+                className="absolute top-full left-0 mt-2 w-72 bg-white rounded-3xl shadow-2xl p-3 z-50 animate-in fade-in zoom-in-95 duration-150 border border-slate-100 before:content-[''] before:absolute before:-top-3 before:inset-x-0 before:h-3"
               >
                 <button
                   onClick={() => {
+                    closeImmediately();
                     onNavigate('banks-fintech');
-                    setIsWhoWeServeOpen(false);
                   }}
-                  className="w-full text-left p-3 hover:bg-slate-50 rounded-2xl transition-colors group flex items-start gap-3"
+                  className="w-full text-left p-3 hover:bg-slate-50 rounded-2xl transition-colors group flex items-start gap-3 cursor-pointer"
                 >
                   <div className="w-8 h-8 rounded-xl bg-red-50 text-[#B12D24] flex items-center justify-center shrink-0 group-hover:bg-[#B12D24] group-hover:text-white transition-colors">
                     <ShieldCheck className="w-4 h-4" />
@@ -102,10 +156,10 @@ export const Header: React.FC<HeaderProps> = ({
 
                 <button
                   onClick={() => {
+                    closeImmediately();
                     onNavigate('networks-content');
-                    setIsWhoWeServeOpen(false);
                   }}
-                  className="w-full text-left p-3 hover:bg-slate-50 rounded-2xl transition-colors group flex items-start gap-3"
+                  className="w-full text-left p-3 hover:bg-slate-50 rounded-2xl transition-colors group flex items-start gap-3 cursor-pointer"
                 >
                   <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                     <Activity className="w-4 h-4" />
@@ -118,10 +172,10 @@ export const Header: React.FC<HeaderProps> = ({
 
                 <button
                   onClick={() => {
+                    closeImmediately();
                     onNavigate('enterprise');
-                    setIsWhoWeServeOpen(false);
                   }}
-                  className="w-full text-left p-3 hover:bg-slate-50 rounded-2xl transition-colors group flex items-start gap-3"
+                  className="w-full text-left p-3 hover:bg-slate-50 rounded-2xl transition-colors group flex items-start gap-3 cursor-pointer"
                 >
                   <div className="w-8 h-8 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 group-hover:bg-slate-900 group-hover:text-white transition-colors">
                     <Server className="w-4 h-4" />
@@ -135,10 +189,10 @@ export const Header: React.FC<HeaderProps> = ({
                 <div className="mt-1 pt-2 border-t border-slate-100">
                   <button
                     onClick={() => {
+                      closeImmediately();
                       onNavigate('moving-to-onix');
-                      setIsWhoWeServeOpen(false);
                     }}
-                    className="w-full text-left px-3 py-2 text-xs font-semibold text-[#B12D24] hover:bg-red-50 rounded-xl transition-colors flex items-center justify-between"
+                    className="w-full text-left px-3 py-2 text-xs font-semibold text-[#B12D24] hover:bg-red-50 rounded-xl transition-colors flex items-center justify-between cursor-pointer"
                   >
                     <span>How moving to Onix works</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -149,56 +203,69 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Solutions dropdown */}
-          <div className="relative" ref={solutionsRef}>
+          <div 
+            className="relative"
+            onMouseEnter={() => openDropdown('solutions')}
+            onMouseLeave={scheduleClose}
+          >
             <button
-              onClick={() => setIsSolutionsOpen(!isSolutionsOpen)}
-              onMouseEnter={() => setIsSolutionsOpen(true)}
-              className={`flex items-center gap-1 py-1.5 transition-colors ${
-                currentPage === 'solutions' ? 'text-[#B12D24] font-semibold' : 'hover:text-[#B12D24]'
+              onClick={() => {
+                if (isSolutionsOpen) {
+                  closeImmediately();
+                } else {
+                  openDropdown('solutions');
+                }
+              }}
+              className={`flex items-center gap-1 py-1.5 transition-colors cursor-pointer ${
+                currentPage === 'solutions' 
+                  ? 'text-[#B12D24] font-semibold' 
+                  : isSolutionsOpen ? 'text-[#B12D24]' : 'hover:text-[#B12D24]'
               }`}
+              aria-expanded={isSolutionsOpen}
             >
               <span>Solutions</span>
-              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isSolutionsOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isSolutionsOpen ? 'rotate-180 text-[#B12D24]' : ''}`} />
             </button>
 
             {isSolutionsOpen && (
               <div 
-                onMouseLeave={() => setIsSolutionsOpen(false)}
-                className="absolute top-full left-0 mt-3 w-64 bg-white rounded-3xl shadow-xl p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150 border border-slate-100"
+                onMouseEnter={() => openDropdown('solutions')}
+                onMouseLeave={scheduleClose}
+                className="absolute top-full left-0 mt-2 w-64 bg-white rounded-3xl shadow-2xl p-3 z-50 animate-in fade-in zoom-in-95 duration-150 border border-slate-100 before:content-[''] before:absolute before:-top-3 before:inset-x-0 before:h-3"
               >
                 <button
                   onClick={() => {
+                    closeImmediately();
                     onNavigate('solutions', 'colocation');
-                    setIsSolutionsOpen(false);
                   }}
-                  className="w-full text-left px-3 py-2 text-xs font-medium text-slate-800 hover:bg-slate-50 rounded-xl"
+                  className="w-full text-left px-3 py-2 text-xs font-medium text-slate-800 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer"
                 >
                   Colocation (Racks & Cages)
                 </button>
                 <button
                   onClick={() => {
+                    closeImmediately();
                     onNavigate('solutions', 'connectivity');
-                    setIsSolutionsOpen(false);
                   }}
-                  className="w-full text-left px-3 py-2 text-xs font-medium text-slate-800 hover:bg-slate-50 rounded-xl"
+                  className="w-full text-left px-3 py-2 text-xs font-medium text-slate-800 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer"
                 >
                   Interconnection (MMR)
                 </button>
                 <button
                   onClick={() => {
+                    closeImmediately();
                     onNavigate('solutions', 'sustainability');
-                    setIsSolutionsOpen(false);
                   }}
-                  className="w-full text-left px-3 py-2 text-xs font-medium text-slate-800 hover:bg-slate-50 rounded-xl"
+                  className="w-full text-left px-3 py-2 text-xs font-medium text-slate-800 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer"
                 >
                   640 kW Solar Power
                 </button>
                 <button
                   onClick={() => {
+                    closeImmediately();
                     onNavigate('solutions', 'remote-hands');
-                    setIsSolutionsOpen(false);
                   }}
-                  className="w-full text-left px-3 py-2 text-xs font-medium text-slate-800 hover:bg-slate-50 rounded-xl"
+                  className="w-full text-left px-3 py-2 text-xs font-medium text-slate-800 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer"
                 >
                   24/7 Remote Hands
                 </button>
@@ -207,8 +274,12 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           <button
-            onClick={() => onNavigate('the-facility')}
-            className={`py-1.5 transition-colors whitespace-nowrap ${
+            onClick={() => {
+              closeImmediately();
+              onNavigate('the-facility');
+            }}
+            onMouseEnter={closeImmediately}
+            className={`py-1.5 transition-colors whitespace-nowrap cursor-pointer ${
               currentPage === 'the-facility' ? 'text-[#B12D24] font-semibold' : 'hover:text-[#B12D24]'
             }`}
           >
@@ -216,8 +287,12 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
 
           <button
-            onClick={() => onNavigate('certification')}
-            className={`py-1.5 transition-colors whitespace-nowrap ${
+            onClick={() => {
+              closeImmediately();
+              onNavigate('certification');
+            }}
+            onMouseEnter={closeImmediately}
+            className={`py-1.5 transition-colors whitespace-nowrap cursor-pointer ${
               currentPage === 'certification' ? 'text-[#B12D24] font-semibold' : 'hover:text-[#B12D24]'
             }`}
           >
@@ -225,8 +300,12 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
 
           <button
-            onClick={() => onNavigate('sustainability')}
-            className={`py-1.5 transition-colors whitespace-nowrap ${
+            onClick={() => {
+              closeImmediately();
+              onNavigate('sustainability');
+            }}
+            onMouseEnter={closeImmediately}
+            className={`py-1.5 transition-colors whitespace-nowrap cursor-pointer ${
               currentPage === 'sustainability' ? 'text-[#B12D24] font-semibold' : 'hover:text-[#B12D24]'
             }`}
           >
@@ -234,8 +313,12 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
 
           <button
-            onClick={() => onNavigate('about')}
-            className={`py-1.5 transition-colors whitespace-nowrap ${
+            onClick={() => {
+              closeImmediately();
+              onNavigate('about');
+            }}
+            onMouseEnter={closeImmediately}
+            className={`py-1.5 transition-colors whitespace-nowrap cursor-pointer ${
               currentPage === 'about' ? 'text-[#B12D24] font-semibold' : 'hover:text-[#B12D24]'
             }`}
           >
@@ -243,8 +326,12 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
 
           <button
-            onClick={() => onNavigate('insights')}
-            className={`py-1.5 transition-colors whitespace-nowrap ${
+            onClick={() => {
+              closeImmediately();
+              onNavigate('insights');
+            }}
+            onMouseEnter={closeImmediately}
+            className={`py-1.5 transition-colors whitespace-nowrap cursor-pointer ${
               currentPage === 'insights' ? 'text-[#B12D24] font-semibold' : 'hover:text-[#B12D24]'
             }`}
           >
@@ -252,8 +339,12 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
 
           <button
-            onClick={() => onNavigate('contact')}
-            className={`py-1.5 transition-colors whitespace-nowrap ${
+            onClick={() => {
+              closeImmediately();
+              onNavigate('contact');
+            }}
+            onMouseEnter={closeImmediately}
+            className={`py-1.5 transition-colors whitespace-nowrap cursor-pointer ${
               currentPage === 'contact' ? 'text-[#B12D24] font-semibold' : 'hover:text-[#B12D24]'
             }`}
           >
@@ -264,7 +355,11 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Senegal Flag Link */}
           <button
-            onClick={() => onNavigate('fr-senegal')}
+            onClick={() => {
+              closeImmediately();
+              onNavigate('fr-senegal');
+            }}
+            onMouseEnter={closeImmediately}
             className={`flex items-center gap-1 py-1 px-2.5 rounded-full text-xs font-medium transition-colors ${
               currentPage === 'fr-senegal'
                 ? 'bg-slate-900 text-white font-semibold'

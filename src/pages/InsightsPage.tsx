@@ -72,7 +72,7 @@ export const InsightsPage: React.FC<InsightsPageProps> = ({
 
             <button
               onClick={onOpenOutageDiary}
-              className="px-6 py-3 bg-[#B12D24] hover:bg-[#96221A] text-white text-xs sm:text-sm font-semibold rounded-lg shrink-0 transition-colors"
+              className="px-6 py-3 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white text-xs sm:text-sm font-semibold rounded-lg shrink-0 transition-colors cursor-pointer"
             >
               Inspect Outage Telemetry Log →
             </button>

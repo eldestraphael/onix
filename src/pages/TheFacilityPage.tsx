@@ -52,7 +52,7 @@ export const TheFacilityPage: React.FC<TheFacilityPageProps> = ({
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
               <button
                 onClick={onOpenTourModal}
-                className="px-6 py-3.5 bg-[#B12D24] hover:bg-[#96221A] active:bg-[#7e1c15] text-white font-semibold rounded-lg transition-all text-sm flex items-center justify-center gap-2"
+                className="px-6 py-3.5 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold rounded-lg transition-all text-sm flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Calendar className="w-4 h-4" />
                 <span>Book a tour</span>

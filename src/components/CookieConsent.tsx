@@ -48,7 +48,7 @@ export const CookieConsent: React.FC<CookieConsentProps> = ({
           </button>
           <button
             onClick={() => handleChoice(true)}
-            className="flex-1 sm:flex-none px-4 py-2 bg-[#B12D24] hover:bg-[#96221A] text-white rounded-lg text-xs font-semibold transition-colors"
+            className="flex-1 sm:flex-none px-4 py-2 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white rounded-lg text-xs font-semibold transition-colors cursor-pointer"
           >
             Accept All Cookies
           </button>

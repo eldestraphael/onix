@@ -251,7 +251,7 @@ export const TourBookingModal: React.FC<TourBookingModalProps> = ({
                 <div className="pt-2">
                   <button
                     type="submit"
-                    className="w-full py-3.5 px-4 bg-[#B12D24] hover:bg-[#96221A] active:bg-[#7e1c15] text-white font-semibold rounded-lg text-sm transition-colors flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#B12D24] focus:ring-offset-2"
+                    className="w-full py-3.5 px-4 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold rounded-lg text-sm transition-colors flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#B12D24] focus:ring-offset-2 cursor-pointer"
                   >
                     <Send className="w-4 h-4" />
                     <span>Request my tour</span>

@@ -26,7 +26,7 @@ export const StickyMobileBar: React.FC<StickyMobileBarProps> = ({
         {/* Primary Action Button: Book a tour */}
         <button
           onClick={onOpenTourModal}
-          className="h-11 flex-1 flex items-center justify-center gap-2 bg-[#B12D24] active:bg-[#96221A] text-white font-semibold text-xs sm:text-sm rounded-lg transition-transform active:scale-[0.98]"
+          className="h-11 flex-1 flex items-center justify-center gap-2 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold text-xs sm:text-sm rounded-lg transition-all active:scale-[0.98] cursor-pointer"
         >
           <Calendar className="w-4 h-4" />
           <span>Book a tour (Accra or Video)</span>

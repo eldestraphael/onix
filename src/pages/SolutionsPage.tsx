@@ -85,7 +85,7 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
           </button>
           <button
             onClick={() => scrollToSection('pricing')}
-            className="px-3 py-1.5 rounded-lg bg-[#B12D24] text-white font-semibold transition-colors whitespace-nowrap shrink-0"
+            className="px-3 py-1.5 rounded-lg bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer"
           >
             What will it cost?
           </button>

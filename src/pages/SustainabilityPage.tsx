@@ -156,7 +156,7 @@ export const SustainabilityPage: React.FC<SustainabilityPageProps> = ({
           <div className="pt-4">
             <button
               onClick={onOpenTourModal}
-              className="px-6 py-3 bg-[#B12D24] hover:bg-[#96221A] text-white font-semibold rounded-lg text-xs sm:text-sm transition-colors"
+              className="px-6 py-3 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer"
             >
               See the solar installation on your tour →
             </button>

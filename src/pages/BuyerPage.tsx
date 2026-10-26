@@ -346,7 +346,7 @@ export const BuyerPage: React.FC<BuyerPageProps> = ({
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
               <button
                 onClick={onOpenTourModal}
-                className="px-6 py-3.5 bg-[#B12D24] hover:bg-[#96221A] active:bg-[#7e1c15] text-white font-semibold rounded-lg transition-all text-sm flex items-center justify-center gap-2"
+                className="px-6 py-3.5 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold rounded-lg transition-all text-sm flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Calendar className="w-4 h-4" />
                 <span>{content.ctaPrimaryText}</span>
@@ -485,7 +485,7 @@ export const BuyerPage: React.FC<BuyerPageProps> = ({
               <div className="pt-4 border-t border-slate-800 flex flex-col gap-2.5">
                 <button
                   onClick={onOpenTourModal}
-                  className="w-full py-3 bg-[#B12D24] hover:bg-[#96221A] text-white rounded-lg text-xs font-semibold transition-colors text-center"
+                  className="w-full py-3 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white rounded-lg text-xs font-semibold transition-colors text-center cursor-pointer"
                 >
                   Book an inspection tour
                 </button>

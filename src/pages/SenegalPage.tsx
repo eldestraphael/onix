@@ -49,7 +49,7 @@ export const SenegalPage: React.FC<SenegalPageProps> = ({
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
               <button
                 onClick={onOpenTourModal}
-                className="px-6 py-3.5 bg-[#B12D24] hover:bg-[#96221A] active:bg-[#7e1c15] text-white font-semibold rounded-lg transition-all text-sm flex items-center justify-center gap-2"
+                className="px-6 py-3.5 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold rounded-lg transition-all text-sm flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Calendar className="w-4 h-4" />
                 <span>Planifier une visite à Dakar</span>
@@ -270,7 +270,7 @@ export const SenegalPage: React.FC<SenegalPageProps> = ({
 
                   <button
                     type="submit"
-                    className="w-full py-3.5 bg-[#B12D24] hover:bg-[#96221A] text-white font-semibold rounded-lg text-sm transition-colors"
+                    className="w-full py-3.5 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold rounded-lg text-sm transition-colors cursor-pointer"
                   >
                     Envoyer ma demande à l&apos;équipe Onix Dakar
                   </button>
@@ -344,7 +344,7 @@ export const SenegalPage: React.FC<SenegalPageProps> = ({
           <div className="pt-4 flex justify-center gap-4">
             <button
               onClick={onOpenTourModal}
-              className="px-6 py-3 bg-[#B12D24] hover:bg-[#96221A] text-white font-semibold rounded-lg text-sm transition-colors"
+              className="px-6 py-3 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold rounded-lg text-sm transition-colors cursor-pointer"
             >
               Planifier une visite
             </button>

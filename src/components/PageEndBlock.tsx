@@ -36,7 +36,7 @@ export const PageEndBlock: React.FC<PageEndBlockProps> = ({
           {/* Primary Action: Book a tour */}
           <button
             onClick={onOpenTourModal}
-            className="w-full sm:w-auto px-7 py-3.5 bg-[#B12D24] hover:bg-[#96221A] active:bg-[#7e1c15] text-white font-semibold rounded-full transition-all flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#151515]"
+            className="w-full sm:w-auto px-7 py-3.5 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold rounded-full transition-all flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#151515] cursor-pointer"
           >
             <Calendar className="w-4 h-4" />
             <span>Book a tour</span>

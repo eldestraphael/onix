@@ -126,7 +126,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             {/* Button 1: Book a tour (red background with white text) */}
             <button
               onClick={onOpenTourModal}
-              className="w-full sm:w-auto px-7 py-3.5 bg-[#B12D24] hover:bg-[#96221A] active:bg-[#7e1c15] text-white font-semibold rounded-full transition-all text-sm flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#B12D24] focus:ring-offset-2"
+              className="w-full sm:w-auto px-7 py-3.5 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold rounded-full transition-all text-sm flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#B12D24] focus:ring-offset-2 cursor-pointer"
             >
               <Calendar className="w-4 h-4" />
               <span>Book a tour</span>
@@ -184,7 +184,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             {/* View All Solutions Button: aligned to heading, matching standard button height, no right icon */}
             <button
               onClick={() => onNavigate('solutions')}
-              className="px-7 py-3.5 bg-[#B12D24] hover:bg-[#96221A] active:bg-[#7e1c15] text-white font-semibold rounded-full transition-all text-sm sm:text-base shrink-0 focus:outline-none focus:ring-2 focus:ring-[#B12D24] focus:ring-offset-2 flex items-center justify-center"
+              className="px-7 py-3.5 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold rounded-full transition-all text-sm sm:text-base shrink-0 focus:outline-none focus:ring-2 focus:ring-[#B12D24] focus:ring-offset-2 flex items-center justify-center cursor-pointer"
             >
               View All Solutions
             </button>
@@ -392,7 +392,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
             <button
               onClick={() => onNavigate('about')}
-              className="px-7 py-3.5 bg-[#B12D24] hover:bg-[#96221A] active:bg-[#7e1c15] text-white font-semibold rounded-full transition-all text-sm sm:text-base shrink-0 focus:outline-none focus:ring-2 focus:ring-[#B12D24] focus:ring-offset-2 flex items-center justify-center"
+              className="px-7 py-3.5 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold rounded-full transition-all text-sm sm:text-base shrink-0 focus:outline-none focus:ring-2 focus:ring-[#B12D24] focus:ring-offset-2 flex items-center justify-center cursor-pointer"
             >
               Meet the full operations team
             </button>
@@ -472,7 +472,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
             <button
               onClick={() => onNavigate('insights')}
-              className="px-7 py-3.5 bg-[#B12D24] hover:bg-[#96221A] active:bg-[#7e1c15] text-white font-semibold rounded-full transition-all text-sm sm:text-base shrink-0 focus:outline-none focus:ring-2 focus:ring-[#B12D24] focus:ring-offset-2 flex items-center justify-center"
+              className="px-7 py-3.5 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold rounded-full transition-all text-sm sm:text-base shrink-0 focus:outline-none focus:ring-2 focus:ring-[#B12D24] focus:ring-offset-2 flex items-center justify-center cursor-pointer"
             >
               View all articles & outage diary
             </button>

@@ -237,7 +237,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAFAFA] text-[#151515] font-['Source_Sans_3',sans-serif] selection:bg-[#B12D24] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-white text-[#151515] font-['Source_Sans_3',sans-serif] selection:bg-[#B12D24] selection:text-white">
       {/* Scroll Progress Indicator Bar at the very top of viewport */}
       <ScrollProgressBar />
 
@@ -249,7 +249,7 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 pt-20 sm:pt-24 pb-16 lg:pb-0">
+      <main className="flex-1 pt-20 sm:pt-24 pb-16 lg:pb-0 bg-white">
         {renderCurrentPage()}
       </main>
 

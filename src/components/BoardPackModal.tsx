@@ -162,7 +162,7 @@ Amrahia-Katamanso, towards Dodowa, Accra, Ghana
           <div className="pt-2 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
             <button
               onClick={handleDownload}
-              className="w-full sm:w-auto px-6 py-3.5 bg-[#B12D24] hover:bg-[#96221A] active:bg-[#7e1c15] text-white font-semibold rounded-lg text-sm transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-6 py-3.5 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold rounded-lg text-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               {downloadSuccess ? (
                 <>

@@ -231,7 +231,7 @@ export const CostEstimator: React.FC<CostEstimatorProps> = ({
           <div className="space-y-2.5 pt-2">
             <button
               onClick={handleRequestProposal}
-              className="w-full py-3.5 bg-[#B12D24] hover:bg-[#96221A] text-white font-semibold rounded-full text-sm flex items-center justify-center gap-2 transition-all"
+              className="w-full py-3.5 bg-[#B12D24] hover:bg-black active:bg-neutral-900 text-white font-semibold rounded-full text-sm flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
               <span>Get written quotation with this config</span>
               <ArrowRight className="w-4 h-4" />
